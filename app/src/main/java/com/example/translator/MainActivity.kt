@@ -9,9 +9,15 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.translator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var controller: NavController
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,9 +25,30 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
+        controller = (
+                supportFragmentManager.findFragmentById(R.id.host_fragment) as NavHostFragment
+                ).navController
+
+//        val appBarConfiguration = AppBarConfiguration(
+//            topLevelDestinationIds = setOf(R.id.mainFragment),
+//            fallbackOnNavigateUpListener = ::onSupportNavigateUp
+//        )
+//        findViewById<Toolbar>(androidx.appcompat.R.id.action_bar)
+//            .setupWithNavController(controller, appBarConfiguration)
+//
+        binding.run {
+            bnvMain.setupWithNavController(controller)
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onBackPressed() {
+        super.onBackPressed()
+        binding.run {
+            if (bnvMain.selectedItemId != R.id.mainFragment) {
+                bnvMain.selectedItemId = R.id.mainFragment
+            } else {
+                onBackPressedDispatcher.onBackPressed()
+            }
+        }
     }
 }

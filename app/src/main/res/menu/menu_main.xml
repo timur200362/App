@@ -2,9 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.translator.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+
+    <item android:id="@+id/mainFragment"
+        android:icon="@drawable/baseline_translate_24"
+        android:title="Main" />
+
+    <item android:id="@+id/favouriteFragment"
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="Favourite"/>
 </menu>
