@@ -36,7 +36,7 @@ firebasePref = "20.2.0"
 firebaseRemoteConfig = "21.2.0"
 
 koin = "3.4.0"
-dagger = "2.40"
+dagger = "2.44"
 
 kotlinxCoroutines = "1.7.3"
 kotlinxDatetime = "0.4.0"

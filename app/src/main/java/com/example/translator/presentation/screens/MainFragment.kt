@@ -18,9 +18,6 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[TranslateViewModel::class.java]
-        viewModel.resultTranslate.observe(this) {
-
-        }
     }
 
     override fun onCreateView(
@@ -39,13 +36,10 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
         binding.run {
             btnTranslate.setOnClickListener {
-                //viewModel.translateWord(etWord.text.toString())
+                viewModel.translateWord(etWord.text.toString())
             }
-            etWord.setOnEditorActionListener {_, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //todo
-                }
-                true
+            viewModel.resultTranslate.observe(viewLifecycleOwner){
+                tvResult.text = it.toString()
             }
         }
     }

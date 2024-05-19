@@ -9,13 +9,14 @@ import com.example.translator.domain.usecase.TranslateUseCase
 import kotlinx.coroutines.launch
 
 class TranslateViewModel: ViewModel() {
-    private val _resultTranslate = MutableLiveData<TranslationResponse>()
-    val resultTranslate: LiveData<TranslationResponse>
+    private val _resultTranslate = MutableLiveData<List<String>>()
+    val resultTranslate: LiveData<List<String>>
         get() = _resultTranslate
 
-//    fun translateWord(word: String) {
-//        viewModelScope.launch {
-//            val translatedWord = TranslateUseCase().execute(word)
-//        }
-//    }
+    fun translateWord(word: String) {
+        viewModelScope.launch {
+            val translatedWord = TranslateUseCase().execute(word)
+            _resultTranslate.value = translatedWord
+        }
+    }
 }
