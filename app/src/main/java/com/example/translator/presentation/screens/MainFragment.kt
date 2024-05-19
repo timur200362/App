@@ -39,7 +39,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
         binding.run {
             btnTranslate.setOnClickListener {
-                viewModel.translateWord(etWord.text.toString())
+                //viewModel.translateWord(etWord.text.toString())
             }
             etWord.setOnEditorActionListener {_, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {

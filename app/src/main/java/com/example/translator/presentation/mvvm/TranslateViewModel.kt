@@ -13,9 +13,9 @@ class TranslateViewModel: ViewModel() {
     val resultTranslate: LiveData<TranslationResponse>
         get() = _resultTranslate
 
-    fun translateWord(word: String) {
-        viewModelScope.launch {
-            val translatedWord = TranslateUseCase().execute(word)
-        }
-    }
+//    fun translateWord(word: String) {
+//        viewModelScope.launch {
+//            val translatedWord = TranslateUseCase().execute(word)
+//        }
+//    }
 }
