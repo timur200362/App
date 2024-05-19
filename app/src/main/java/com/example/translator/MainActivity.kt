@@ -28,14 +28,6 @@ class MainActivity : AppCompatActivity() {
         controller = (
                 supportFragmentManager.findFragmentById(R.id.host_fragment) as NavHostFragment
                 ).navController
-
-//        val appBarConfiguration = AppBarConfiguration(
-//            topLevelDestinationIds = setOf(R.id.mainFragment),
-//            fallbackOnNavigateUpListener = ::onSupportNavigateUp
-//        )
-//        findViewById<Toolbar>(androidx.appcompat.R.id.action_bar)
-//            .setupWithNavController(controller, appBarConfiguration)
-//
         binding.run {
             bnvMain.setupWithNavController(controller)
         }

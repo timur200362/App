@@ -6,12 +6,12 @@
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.translator.screens.MainFragment"
+        android:name="com.example.translator.presentation.screens.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main"/>
     <fragment
         android:id="@+id/favouriteFragment"
-        android:name="com.example.translator.screens.FavouriteFragment"
+        android:name="com.example.translator.presentation.screens.FavouriteFragment"
         android:label="FavouriteFragment"
         tools:layout="@layout/fragment_favourite"/>
 </navigation>
