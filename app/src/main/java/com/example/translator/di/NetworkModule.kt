@@ -8,17 +8,21 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 private const val BASE_URL = "https://dictionary.skyeng.ru/"
 
 @Module
-class NetworkModule {
+object NetworkModule {
+
     @Provides
+    @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level =  HttpLoggingInterceptor.Level.BODY
     }
 
     @Provides
+    @Singleton
     fun provideHttpClient(
         loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
@@ -27,6 +31,7 @@ class NetworkModule {
         .build()
 
     @Provides
+    @Singleton
     fun provideRetrofit(
         httpClient: OkHttpClient,
         gsonFactory: GsonConverterFactory
@@ -37,9 +42,11 @@ class NetworkModule {
         .build()
 
     @Provides
+    @Singleton
     fun provideGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Provides
+    @Singleton
     fun provideApiService(
         retrofit: Retrofit
     ): ApiService = retrofit.create(ApiService::class.java)

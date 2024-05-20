@@ -5,26 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.translator.R
 import com.example.translator.app.App
 import com.example.translator.databinding.FragmentMainBinding
+import com.example.translator.domain.usecase.TranslateUseCase
 import com.example.translator.presentation.mvvm.TranslateViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainFragment: Fragment(R.layout.fragment_main) {
-    private lateinit var viewModel: TranslateViewModel
     private lateinit var binding: FragmentMainBinding
 
     @Inject
-    lateinit var translateViewModel: TranslateViewModel
+    lateinit var translateUseCase: TranslateUseCase
+
+    private val viewModel: TranslateViewModel by viewModels {
+        TranslateViewModel.provideFactory(translateUseCase)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (requireActivity().application as App).appComponent.injectMainFragment(this)
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this)[TranslateViewModel::class.java]
     }
 
     override fun onCreateView(

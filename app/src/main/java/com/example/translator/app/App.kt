@@ -1,16 +1,15 @@
 package com.example.translator.app
 
 import android.app.Application
-import com.example.translator.di.ApplicationComponent
-import com.example.translator.di.ApplicationModule
-import com.example.translator.di.DaggerApplicationComponent
+import com.example.translator.di.AppComponent
+import com.example.translator.di.DaggerAppComponent
 
-class App: Application() {
-    val appComponent = DaggerApplicationComponent.builder().applicationModule(
-        ApplicationModule(this)
-    ).build()
+class App : Application(), AppComponentProvider {
+
+    override lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
+        appComponent = DaggerAppComponent.factory().create(this)
     }
 }
