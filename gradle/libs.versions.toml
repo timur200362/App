@@ -21,6 +21,7 @@ foundation = "1.6.7"
 compose = "1.6.7"
 androidxMaterial = "1.6.7"
 constraintlayout = "2.1.4"
+glide = "4.16.0"
 
 androidxAppCompat = "1.6.1"
 androidxCoreSplashscreen = "1.0.1"
@@ -36,7 +37,7 @@ firebasePref = "20.2.0"
 firebaseRemoteConfig = "21.2.0"
 
 koin = "3.4.0"
-dagger = "2.44"
+dagger = "2.51.1"
 
 kotlinxCoroutines = "1.7.3"
 kotlinxDatetime = "0.4.0"
@@ -70,6 +71,7 @@ androidx-lifecycle-viewModelCompose = { group = "androidx.lifecycle", name = "li
 androidx-compose-foundation = {group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation"}
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }

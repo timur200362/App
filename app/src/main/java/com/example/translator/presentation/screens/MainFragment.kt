@@ -4,18 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.translator.R
+import com.example.translator.app.App
 import com.example.translator.databinding.FragmentMainBinding
 import com.example.translator.presentation.mvvm.TranslateViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainFragment: Fragment(R.layout.fragment_main) {
     private lateinit var viewModel: TranslateViewModel
     private lateinit var binding: FragmentMainBinding
 
+    @Inject
+    lateinit var translateViewModel: TranslateViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        (requireActivity().application as App).appComponent.injectMainFragment(this)
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[TranslateViewModel::class.java]
     }
@@ -38,8 +45,10 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             btnTranslate.setOnClickListener {
                 viewModel.translateWord(etWord.text.toString())
             }
-            viewModel.resultTranslate.observe(viewLifecycleOwner){
-                tvResult.text = it.toString()
+            lifecycleScope.launch {
+                viewModel.resultTranslate.collect {
+                    tvResult.text = it.toString()
+                }
             }
         }
     }

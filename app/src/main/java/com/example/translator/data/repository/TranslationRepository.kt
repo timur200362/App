@@ -5,9 +5,4 @@ import com.example.translator.domain.repository.TranslationRepositoryImpl
 
 interface TranslationRepository {
     suspend fun translateWord(word: String): List<String>
-    companion object{
-        fun getInstance():TranslationRepository{
-            return TranslationRepositoryImpl
-        }
-    }
 }

@@ -1,10 +1,12 @@
 package com.example.translator.domain.usecase
 
-import com.example.translator.data.remote.response.TranslationResponse
 import com.example.translator.data.repository.TranslationRepository
+import javax.inject.Inject
 
-class TranslateUseCase {
+class TranslateUseCase @Inject constructor(
+    private val translationRepository: TranslationRepository
+) {
     suspend fun execute(word: String): List<String> {
-        return TranslationRepository.getInstance().translateWord(word)
+        return translationRepository.translateWord(word)
     }
 }
