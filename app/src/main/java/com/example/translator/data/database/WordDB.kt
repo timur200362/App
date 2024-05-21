@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class WordDB (
     @PrimaryKey(autoGenerate = true) val wordId: Int,
-    @ColumnInfo(name = "word") val word: String?,
-    @ColumnInfo(name = "id") val id: Int?,
-    @ColumnInfo(name = "favorite") val isFavorite: Boolean?,
+    @ColumnInfo(name = "word") val word: String,
+    @ColumnInfo(name = "favorite") val isFavorite: Boolean? = false
 )

@@ -9,7 +9,7 @@ interface WordDao {
     @Insert
     suspend fun insert(wordDB: WordDB)
 
-    @Query("DELETE FROM WordDB WHERE id=:id")
+    @Query("DELETE FROM WordDB WHERE wordId=:id")
     suspend fun delete(id: Int)
 
     @Query("SELECT * FROM WordDB")

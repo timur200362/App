@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.translator.databinding.ItemWordBinding
 
 class WordAdapter(
-    private val list: List<Word>,
-    private val action: (Word) -> Unit
+    private val list: MutableList<String>,
+    private val action: (String) -> Unit
 ) : RecyclerView.Adapter<WordItem>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordItem =
         WordItem(
@@ -24,4 +24,10 @@ class WordAdapter(
     }
 
     override fun getItemCount(): Int = list.size
+
+    fun update(list: List<String>){
+        this.list.clear()
+        this.list.addAll(list)
+        notifyDataSetChanged()//difutills
+    }
 }

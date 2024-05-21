@@ -5,14 +5,14 @@ import com.example.translator.databinding.ItemWordBinding
 
 class WordItem(
     private val binding: ItemWordBinding,
-    private val action: (Word) -> Unit
+    private val action: (String) -> Unit
 ): RecyclerView.ViewHolder(binding.root) {
-    fun onBind(wordsList: Word) {
+    fun onBind(word: String) {
         with(binding) {
-            tvWord.text = wordsList.word
+            tvWord.text = word
 
             root.setOnClickListener {
-                action(wordsList)
+                action(word)
             }
         }
     }

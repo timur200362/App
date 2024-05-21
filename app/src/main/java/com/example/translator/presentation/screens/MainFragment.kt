@@ -11,6 +11,10 @@ import com.example.translator.R
 import com.example.translator.app.App
 import com.example.translator.databinding.FragmentMainBinding
 import com.example.translator.domain.usecase.api.TranslateUseCase
+import com.example.translator.domain.usecase.database.DeleteUseCase
+import com.example.translator.domain.usecase.database.GetAllUseCase
+import com.example.translator.domain.usecase.database.InsertUseCase
+import com.example.translator.presentation.model.WordAdapter
 import com.example.translator.presentation.mvvm.TranslateViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,9 +24,20 @@ class MainFragment: Fragment(R.layout.fragment_main) {
 
     @Inject
     lateinit var translateUseCase: TranslateUseCase
+    @Inject
+    lateinit var insertUseCase: InsertUseCase
+    @Inject
+    lateinit var deleteUseCase: DeleteUseCase
+    @Inject
+    lateinit var getAllUseCase: GetAllUseCase
 
-    private val viewModel: TranslateViewModel by viewModels {
-        TranslateViewModel.provideFactory(translateUseCase)
+    private val viewModel: TranslateViewModel by viewModels {//provide viewModelFactory
+        TranslateViewModel.provideFactory(
+            translateUseCase,
+            insertUseCase,
+            deleteUseCase,
+            getAllUseCase
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,12 +60,21 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMainBinding.bind(view)
         binding.run {
+            rwWordsList.adapter = WordAdapter(
+                mutableListOf(),
+                {}
+            )
             btnTranslate.setOnClickListener {
                 viewModel.translateWord(etWord.text.toString())
             }
             lifecycleScope.launch {
                 viewModel.resultTranslate.collect {
                     tvResult.text = it.toString()
+                }
+            }
+            lifecycleScope.launch {
+                viewModel.historyTranslate.collect {
+                    (rwWordsList.adapter as WordAdapter).update(it)
                 }
             }
         }
