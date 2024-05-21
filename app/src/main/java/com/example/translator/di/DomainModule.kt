@@ -5,6 +5,7 @@ import com.example.translator.domain.usecase.api.TranslateUseCase
 import com.example.translator.domain.usecase.database.DeleteAndGetAllUseCase
 import com.example.translator.domain.usecase.database.DeleteFromFavouritesUseCase
 import com.example.translator.domain.usecase.database.GetAllUseCase
+import com.example.translator.domain.usecase.database.GetFavouritesUseCase
 import com.example.translator.domain.usecase.database.InsertToFavouritesUseCase
 import com.example.translator.domain.usecase.database.InsertUseCase
 import dagger.Module
@@ -36,4 +37,8 @@ class DomainModule {
     fun provideDeleteFromFavouritesUseCase(
         translationRepository: TranslationRepository
     ): DeleteFromFavouritesUseCase = DeleteFromFavouritesUseCase(translationRepository)
+    @Provides
+    fun provideGetFavouritesUseCase(
+        translationRepository: TranslationRepository
+    ): GetFavouritesUseCase = GetFavouritesUseCase(translationRepository)
 }

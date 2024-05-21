@@ -1,11 +1,8 @@
-package com.example.translator.presentation.model
+package com.example.translator.presentation.model.wordList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.translator.data.database.WordDB
 import com.example.translator.databinding.ItemWordBinding
 class WordAdapter(

@@ -7,6 +7,6 @@ class GetFavouritesUseCase(
     private val translationRepository: TranslationRepository
 ) {
     suspend fun execute(): List<WordDB> {
-        return translationRepository.getAll()
+        return translationRepository.getFavourites()
     }
 }

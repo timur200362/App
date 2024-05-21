@@ -1,4 +1,4 @@
-package com.example.translator.presentation.model
+package com.example.translator.presentation.model.wordList
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.translator.data.database.WordDB

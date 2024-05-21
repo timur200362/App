@@ -16,8 +16,8 @@ import com.example.translator.domain.usecase.database.DeleteFromFavouritesUseCas
 import com.example.translator.domain.usecase.database.GetAllUseCase
 import com.example.translator.domain.usecase.database.InsertToFavouritesUseCase
 import com.example.translator.domain.usecase.database.InsertUseCase
-import com.example.translator.presentation.model.WordAdapter
-import com.example.translator.presentation.model.WordItemClickListener
+import com.example.translator.presentation.model.wordList.WordAdapter
+import com.example.translator.presentation.model.wordList.WordItemClickListener
 import com.example.translator.presentation.mvvm.TranslateViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
