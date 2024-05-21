@@ -10,4 +10,7 @@ interface TranslationRepository {
     suspend fun delete(id: Int)
     suspend fun getAll(): List<WordDB>
     suspend fun getFavourites(): List<WordDB>
+    suspend fun deleteAndGetAll(id: Int): List<WordDB>
+    suspend fun insertToFavourites(id: Int)
+    suspend fun deleteFromFavourites(id: Int)
 }

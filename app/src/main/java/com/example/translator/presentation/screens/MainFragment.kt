@@ -11,10 +11,13 @@ import com.example.translator.R
 import com.example.translator.app.App
 import com.example.translator.databinding.FragmentMainBinding
 import com.example.translator.domain.usecase.api.TranslateUseCase
-import com.example.translator.domain.usecase.database.DeleteUseCase
+import com.example.translator.domain.usecase.database.DeleteAndGetAllUseCase
+import com.example.translator.domain.usecase.database.DeleteFromFavouritesUseCase
 import com.example.translator.domain.usecase.database.GetAllUseCase
+import com.example.translator.domain.usecase.database.InsertToFavouritesUseCase
 import com.example.translator.domain.usecase.database.InsertUseCase
 import com.example.translator.presentation.model.WordAdapter
+import com.example.translator.presentation.model.WordItemClickListener
 import com.example.translator.presentation.mvvm.TranslateViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,16 +30,22 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     @Inject
     lateinit var insertUseCase: InsertUseCase
     @Inject
-    lateinit var deleteUseCase: DeleteUseCase
-    @Inject
     lateinit var getAllUseCase: GetAllUseCase
+    @Inject
+    lateinit var deleteAndGetAllUseCase: DeleteAndGetAllUseCase
+    @Inject
+    lateinit var deleteFromFavouritesUseCase: DeleteFromFavouritesUseCase
+    @Inject
+    lateinit var insertToFavouritesUseCase: InsertToFavouritesUseCase
 
     private val viewModel: TranslateViewModel by viewModels {//provide viewModelFactory
         TranslateViewModel.provideFactory(
             translateUseCase,
             insertUseCase,
-            deleteUseCase,
-            getAllUseCase
+            getAllUseCase,
+            deleteAndGetAllUseCase,
+            insertToFavouritesUseCase,
+            deleteFromFavouritesUseCase,
         )
     }
 
@@ -61,8 +70,16 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
         binding.run {
             rwWordsList.adapter = WordAdapter(
-                mutableListOf()
-            ) {}
+                mutableListOf(),
+                object: WordItemClickListener {
+                    override fun onTextWordClicked(position: Int) {
+                        viewModel.deleteAndGetAll(position)
+                    }
+                    override fun onFavoriteIconClicked(position: Int) {
+                        viewModel.toggleFavorite(position)
+                    }
+                }
+            )
             btnTranslate.setOnClickListener {
                 viewModel.translateWord(etWord.text.toString())
             }

@@ -1,18 +1,23 @@
 package com.example.translator.presentation.model
 
 import androidx.recyclerview.widget.RecyclerView
+import com.example.translator.data.database.WordDB
 import com.example.translator.databinding.ItemWordBinding
 
 class WordItem(
     private val binding: ItemWordBinding,
-    private val action: (String) -> Unit
+    //private val action: (Int) -> Unit,
+    private val itemClickListener: WordItemClickListener
 ): RecyclerView.ViewHolder(binding.root) {
-    fun onBind(word: String) {
+    fun onBind(word: WordDB) {
         with(binding) {
-            tvWord.text = word
+            tvWord.text = word.word
 
-            root.setOnClickListener {
-                action(word)
+            tvWord.setOnClickListener {
+                itemClickListener.onTextWordClicked(word.wordId)
+            }
+            ivFavorite.setOnClickListener {
+                itemClickListener.onFavoriteIconClicked(word.wordId)
             }
         }
     }

@@ -33,4 +33,16 @@ class TranslationRepositoryImpl @Inject constructor(
     override suspend fun getAll(): List<WordDB> {
         return wordDatabase.wordDao().getAll()
     }
+
+    override suspend fun deleteAndGetAll(id: Int): List<WordDB> {
+        return wordDatabase.wordDao().deleteAndGetAll(id)
+    }
+
+    override suspend fun insertToFavourites(id: Int) {
+        return wordDatabase.wordDao().insertToFavourites(id)
+    }
+
+    override suspend fun deleteFromFavourites(id: Int) {
+        return wordDatabase.wordDao().deleteFromFavourites(id)
+    }
 }
