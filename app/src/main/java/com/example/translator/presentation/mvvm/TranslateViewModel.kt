@@ -5,11 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.translator.domain.usecase.TranslateUseCase
+import com.example.translator.domain.usecase.api.TranslateUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class TranslateViewModel(
     private val translateUseCase: TranslateUseCase,
@@ -25,6 +24,22 @@ class TranslateViewModel(
         }
     }
 
+    fun insert(id: Int) {
+        viewModelScope.launch {
+
+        }
+    }
+
+    fun delete() {
+        viewModelScope.launch {
+
+        }
+    }
+    fun getAll() {
+        viewModelScope.launch {
+
+        }
+    }
     companion object {
         fun provideFactory(
             translateUseCase: TranslateUseCase,

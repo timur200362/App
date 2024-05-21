@@ -1,4 +1,4 @@
-package com.example.translator.domain.usecase
+package com.example.translator.domain.usecase.api
 
 import com.example.translator.data.repository.TranslationRepository
 import javax.inject.Inject

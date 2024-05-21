@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.translator.R
 import com.example.translator.app.App
 import com.example.translator.databinding.FragmentMainBinding
-import com.example.translator.domain.usecase.TranslateUseCase
+import com.example.translator.domain.usecase.api.TranslateUseCase
 import com.example.translator.presentation.mvvm.TranslateViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

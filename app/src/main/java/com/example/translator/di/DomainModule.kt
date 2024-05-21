@@ -1,7 +1,7 @@
 package com.example.translator.di
 
 import com.example.translator.data.repository.TranslationRepository
-import com.example.translator.domain.usecase.TranslateUseCase
+import com.example.translator.domain.usecase.api.TranslateUseCase
 import dagger.Module
 import dagger.Provides
 
