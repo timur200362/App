@@ -25,7 +25,7 @@ class WordAdapter(
 
     override fun getItemCount(): Int = list.size
 
-    fun update(list: List<String>){
+    fun update(list: List<String>) {
         this.list.clear()
         this.list.addAll(list)
         notifyDataSetChanged()//difutills

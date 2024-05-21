@@ -61,9 +61,8 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
         binding.run {
             rwWordsList.adapter = WordAdapter(
-                mutableListOf(),
-                {}
-            )
+                mutableListOf()
+            ) {}
             btnTranslate.setOnClickListener {
                 viewModel.translateWord(etWord.text.toString())
             }

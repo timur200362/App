@@ -35,8 +35,15 @@ class TranslateViewModel(
     fun translateWord(word: String) {
         viewModelScope.launch {
             val translatedWord = translateUseCase.execute(word)
-            insert(WordDB(0,word))
-            getAll()
+            val insertJob = launch {
+                insert(WordDB(0, word))
+            }
+            insertJob.join()
+
+            val getAllJob = launch {
+                getAll()
+            }
+            getAllJob.join()
             _resultTranslate.value = translatedWord
         }
     }
