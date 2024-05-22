@@ -10,15 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.translator.R
 import com.example.translator.app.App
 import com.example.translator.databinding.FragmentMainBinding
-import com.example.translator.domain.usecase.api.TranslateUseCase
-import com.example.translator.domain.usecase.database.DeleteAndGetAllUseCase
-import com.example.translator.domain.usecase.database.DeleteFromFavouritesUseCase
-import com.example.translator.domain.usecase.database.GetAllUseCase
-import com.example.translator.domain.usecase.database.InsertToFavouritesUseCase
-import com.example.translator.domain.usecase.database.InsertUseCase
 import com.example.translator.presentation.model.wordList.WordAdapter
 import com.example.translator.presentation.model.wordList.WordItemClickListener
-import com.example.translator.presentation.mvvm.TranslateViewModel
+import com.example.translator.presentation.mvvm.main.MainFactory
+import com.example.translator.presentation.mvvm.main.MainViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,27 +21,10 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
 
     @Inject
-    lateinit var translateUseCase: TranslateUseCase
-    @Inject
-    lateinit var insertUseCase: InsertUseCase
-    @Inject
-    lateinit var getAllUseCase: GetAllUseCase
-    @Inject
-    lateinit var deleteAndGetAllUseCase: DeleteAndGetAllUseCase
-    @Inject
-    lateinit var deleteFromFavouritesUseCase: DeleteFromFavouritesUseCase
-    @Inject
-    lateinit var insertToFavouritesUseCase: InsertToFavouritesUseCase
+    lateinit var mainFactory: MainFactory
 
-    private val viewModel: TranslateViewModel by viewModels {//provide viewModelFactory
-        TranslateViewModel.provideFactory(
-            translateUseCase,
-            insertUseCase,
-            getAllUseCase,
-            deleteAndGetAllUseCase,
-            insertToFavouritesUseCase,
-            deleteFromFavouritesUseCase,
-        )
+    private val viewModel: MainViewModel by viewModels {
+        mainFactory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,10 +48,9 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
         binding.run {
             rwWordsList.adapter = WordAdapter(
-                mutableListOf(),
                 object: WordItemClickListener {
                     override fun onDeleteItemClicked(position: Int) {
-                        viewModel.deleteAndGetAll(position)
+                        viewModel.delete(position)
                     }
                     override fun onFavoriteIconClicked(position: Int) {
                         viewModel.toggleFavorite(position)
@@ -90,7 +67,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             }
             lifecycleScope.launch {
                 viewModel.historyTranslate.collect {
-                    (rwWordsList.adapter as WordAdapter).update(it)
+                    (rwWordsList.adapter as WordAdapter).submitList(it)
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.example.translator.di
+package com.example.translator.di.data
 
 import com.example.translator.data.remote.ApiService
 import dagger.Module

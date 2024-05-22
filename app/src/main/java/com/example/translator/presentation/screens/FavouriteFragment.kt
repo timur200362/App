@@ -10,9 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import com.example.translator.R
 import com.example.translator.app.App
 import com.example.translator.databinding.FragmentFavouriteBinding
-import com.example.translator.domain.usecase.database.GetFavouritesUseCase
 import com.example.translator.presentation.model.favouritesList.WordFavouriteAdapter
-import com.example.translator.presentation.mvvm.FavouriteViewModel
+import com.example.translator.presentation.mvvm.favourite.FavouriteFactory
+import com.example.translator.presentation.mvvm.favourite.FavouriteViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,12 +20,10 @@ class FavouriteFragment: Fragment(R.layout.fragment_favourite) {
     private lateinit var binding: FragmentFavouriteBinding
 
     @Inject
-    lateinit var getFavouritesUseCase: GetFavouritesUseCase
+    lateinit var favouriteFactory: FavouriteFactory
 
     private val viewModel: FavouriteViewModel by viewModels {
-        FavouriteViewModel.provideFactory(
-            getFavouritesUseCase
-        )
+        favouriteFactory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +36,6 @@ class FavouriteFragment: Fragment(R.layout.fragment_favourite) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         return FragmentFavouriteBinding.inflate(inflater, container, false).let {
             binding = it
             it.root
@@ -49,14 +46,19 @@ class FavouriteFragment: Fragment(R.layout.fragment_favourite) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFavouriteBinding.bind(view)
         binding.run {
-            rwFavouritesWordsList.adapter = WordFavouriteAdapter(
-                mutableListOf()
-            )
+            rwFavouritesWordsList.adapter = WordFavouriteAdapter()
             lifecycleScope.launch {
                 viewModel.favourites.collect {
-                    (rwFavouritesWordsList.adapter as WordFavouriteAdapter).update(it)
+                    (rwFavouritesWordsList.adapter as WordFavouriteAdapter).submitList(it)
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            viewModel.getFavouritesWords()
         }
     }
 }

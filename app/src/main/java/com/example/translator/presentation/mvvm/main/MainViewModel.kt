@@ -1,14 +1,11 @@
-package com.example.translator.presentation.mvvm
+package com.example.translator.presentation.mvvm.main
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.translator.data.database.WordDB
 import com.example.translator.domain.usecase.api.TranslateUseCase
-import com.example.translator.domain.usecase.database.DeleteAndGetAllUseCase
 import com.example.translator.domain.usecase.database.DeleteFromFavouritesUseCase
+import com.example.translator.domain.usecase.database.DeleteUseCase
 import com.example.translator.domain.usecase.database.GetAllUseCase
 import com.example.translator.domain.usecase.database.InsertToFavouritesUseCase
 import com.example.translator.domain.usecase.database.InsertUseCase
@@ -16,11 +13,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class TranslateViewModel(
+class MainViewModel(
     private val translateUseCase: TranslateUseCase,
     private val insertUseCase: InsertUseCase,
     private val getAllUseCase: GetAllUseCase,
-    private val deleteAndGetAllUseCase: DeleteAndGetAllUseCase,
+    private val deleteUseCase: DeleteUseCase,
     private val insertToFavouritesUseCase: InsertToFavouritesUseCase,
     private val deleteFromFavouritesUseCase: DeleteFromFavouritesUseCase,
 ) : ViewModel() {
@@ -32,23 +29,32 @@ class TranslateViewModel(
     val historyTranslate: StateFlow<List<WordDB>>
         get() = _historyTranslate
 
+    private val _error = MutableStateFlow("")
+    val error: StateFlow<String>
+        get() = _error
+
     init {
         getAll()
     }
 
     fun translateWord(word: String) {
         viewModelScope.launch {
-            val translatedWord = translateUseCase.execute(word)
-            val insertJob = launch {
-                insert(WordDB(0, word))
-            }
-            insertJob.join()
+            try {
+                val translatedWord = translateUseCase.execute(word)
+                val insertJob = launch {
+                    insert(WordDB(0, word))
+                }
+                insertJob.join()
 
-            val getAllJob = launch {
-                getAll()
+                val getAllJob = launch {
+                    getAll()
+                }
+                getAllJob.join()
+                _resultTranslate.value = translatedWord
             }
-            getAllJob.join()
-            _resultTranslate.value = translatedWord
+            catch (exception: Exception) {
+                _error.value = "Нет подключения к интернету!"
+            }
         }
     }
 
@@ -62,13 +68,15 @@ class TranslateViewModel(
                 } else {
                     insertToFavourites(id)
                 }
+                getAll()
             }
         }
     }
 
-    fun deleteAndGetAll(id: Int) {
+    fun delete(id: Int) {
         viewModelScope.launch {
-            deleteAndGetAllUseCase.execute(id)
+            deleteUseCase.execute(id)
+            getAll()
         }
     }
 
@@ -96,25 +104,4 @@ class TranslateViewModel(
         }
     }
 
-    companion object {
-        fun provideFactory(
-            translateUseCase: TranslateUseCase,
-            insertUseCase: InsertUseCase,
-            getAllUseCase: GetAllUseCase,
-            deleteAndGetAllUseCase: DeleteAndGetAllUseCase,
-            insertToFavouritesUseCase: InsertToFavouritesUseCase,
-            deleteFromFavouritesUseCase: DeleteFromFavouritesUseCase,
-        ): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                TranslateViewModel(
-                    translateUseCase,
-                    insertUseCase,
-                    getAllUseCase,
-                    deleteAndGetAllUseCase,
-                    insertToFavouritesUseCase,
-                    deleteFromFavouritesUseCase,
-                )
-            }
-        }
-    }
 }

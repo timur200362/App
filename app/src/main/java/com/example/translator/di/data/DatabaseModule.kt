@@ -1,4 +1,4 @@
-package com.example.translator.di
+package com.example.translator.di.data
 
 import android.content.Context
 import androidx.room.Room

@@ -2,15 +2,15 @@ package com.example.translator.presentation.model.favouritesList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
 import com.example.translator.data.database.WordDB
-import com.example.translator.databinding.ItemWordBinding
+import com.example.translator.databinding.ItemFavouritewordBinding
 class WordFavouriteAdapter(
-    private val list: MutableList<WordDB>,
-) : RecyclerView.Adapter<WordFavouriteItem>(){
+) : ListAdapter<WordDB, WordFavouriteItem>(WordFavouriteDiffCallback()){
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordFavouriteItem =
         WordFavouriteItem(
-            binding = ItemWordBinding.inflate(
+            binding = ItemFavouritewordBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -18,14 +18,6 @@ class WordFavouriteAdapter(
         )
 
     override fun onBindViewHolder(holder: WordFavouriteItem, position: Int) {
-        holder.onBind(list[position])
-    }
-
-    override fun getItemCount(): Int = list.size
-
-    fun update(list: List<WordDB>) {
-        this.list.clear()
-        this.list.addAll(list)
-        notifyDataSetChanged()
+        holder.onBind(this.getItem(position))
     }
 }

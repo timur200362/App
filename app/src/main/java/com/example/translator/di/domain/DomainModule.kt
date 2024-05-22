@@ -1,9 +1,9 @@
-package com.example.translator.di
+package com.example.translator.di.domain
 
 import com.example.translator.data.repository.TranslationRepository
 import com.example.translator.domain.usecase.api.TranslateUseCase
-import com.example.translator.domain.usecase.database.DeleteAndGetAllUseCase
 import com.example.translator.domain.usecase.database.DeleteFromFavouritesUseCase
+import com.example.translator.domain.usecase.database.DeleteUseCase
 import com.example.translator.domain.usecase.database.GetAllUseCase
 import com.example.translator.domain.usecase.database.GetFavouritesUseCase
 import com.example.translator.domain.usecase.database.InsertToFavouritesUseCase
@@ -26,9 +26,9 @@ class DomainModule {
         translationRepository: TranslationRepository
     ): GetAllUseCase = GetAllUseCase(translationRepository)
     @Provides
-    fun provideDeleteAndGetAllUseCase(
+    fun provideDeleteUseCase(
         translationRepository: TranslationRepository
-    ): DeleteAndGetAllUseCase = DeleteAndGetAllUseCase(translationRepository)
+    ): DeleteUseCase = DeleteUseCase(translationRepository)
     @Provides
     fun provideInsertToFavouritesUseCase(
         translationRepository: TranslationRepository
