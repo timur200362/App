@@ -41,16 +41,9 @@ class MainViewModel(
         viewModelScope.launch {
             try {
                 val translatedWord = translateUseCase.execute(word)
-                val insertJob = launch {
-                    insert(WordDB(0, word))
-                }
-                insertJob.join()
-
-                val getAllJob = launch {
-                    getAll()
-                }
-                getAllJob.join()
                 _resultTranslate.value = translatedWord
+                insert(WordDB(0, word))
+                getAll()
             }
             catch (exception: Exception) {
                 _error.value = "Нет подключения к интернету!"
