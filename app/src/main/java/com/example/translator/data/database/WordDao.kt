@@ -10,9 +10,6 @@ interface WordDao {
     @Insert
     suspend fun insert(wordEntity: WordEntity)
 
-    @Insert
-    suspend fun insertAll(words: List<WordEntity>)
-
     @Query("DELETE FROM words WHERE wordId=:id")
     suspend fun delete(id: Int)
 

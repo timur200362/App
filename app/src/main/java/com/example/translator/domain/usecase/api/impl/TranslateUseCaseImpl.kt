@@ -1,6 +1,7 @@
-package com.example.translator.domain.usecase.api
+package com.example.translator.domain.usecase.api.impl
 
 import com.example.translator.data.repository.TranslationRepository
+import com.example.translator.domain.usecase.api.interfaces.TranslateUseCase
 import javax.inject.Inject
 
 class TranslateUseCaseImpl @Inject constructor(
@@ -8,8 +9,4 @@ class TranslateUseCaseImpl @Inject constructor(
 ) : TranslateUseCase {
     override suspend fun invoke(word: String): List<String> =
         translationRepository.translateWord(word)
-}
-
-interface TranslateUseCase {
-    suspend operator fun invoke(word: String): List<String>
 }

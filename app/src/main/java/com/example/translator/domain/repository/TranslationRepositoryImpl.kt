@@ -23,11 +23,11 @@ class TranslationRepositoryImpl @Inject constructor(
         return result
     }
 
-    override suspend fun addToFavorite(id: Int): List<WordEntity> {
+    override suspend fun addToFavourite(id: Int): List<WordEntity> {
         return wordDao.insertToFavoriteAndGetAll(id)
     }
 
-    override suspend fun removeFromFavorite(id: Int): List<WordEntity> {
+    override suspend fun removeFromFavourite(id: Int): List<WordEntity> {
         return wordDao.deleteFromFavoriteAndGetAll(id)
     }
 
@@ -39,7 +39,7 @@ class TranslationRepositoryImpl @Inject constructor(
         return wordDao.getAll()
     }
 
-    override suspend fun getFavorites(): List<WordEntity> {
+    override suspend fun getFavourites(): List<WordEntity> {
         return wordDao.getFavourites()
     }
 

@@ -3,8 +3,12 @@ package com.example.translator.presentation.mvvm.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.translator.data.database.WordEntity
-import com.example.translator.data.repository.TranslationRepository
-import com.example.translator.domain.usecase.api.TranslateUseCase
+import com.example.translator.domain.usecase.api.interfaces.TranslateUseCase
+import com.example.translator.domain.usecase.database.interfaces.AddToFavouriteUseCase
+import com.example.translator.domain.usecase.database.interfaces.GetCacheUseCase
+import com.example.translator.domain.usecase.database.interfaces.GetFavouritesUseCase
+import com.example.translator.domain.usecase.database.interfaces.RemoveFromCacheUseCase
+import com.example.translator.domain.usecase.database.interfaces.RemoveFromFavouriteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -12,7 +16,11 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val translateUseCase: TranslateUseCase,
-    private val translationRepository: TranslationRepository,
+    private val addToFavouriteUseCase: AddToFavouriteUseCase,
+    private val removeFromFavouriteUseCase: RemoveFromFavouriteUseCase,
+    private val removeFromCacheUseCase: RemoveFromCacheUseCase,
+    private val getCacheUseCase: GetCacheUseCase
+
 ) : ViewModel() {
     private val _resultTranslate = MutableStateFlow<List<String>>(emptyList())
     val resultTranslate: StateFlow<List<String>>
@@ -35,7 +43,7 @@ class MainViewModel(
             try {
                 val translatedWord = translateUseCase(word)
                 _resultTranslate.update { translatedWord }
-                _historyTranslate.update { translationRepository.getCache() }
+                _historyTranslate.update { getCacheUseCase.invoke() }
             } catch (exception: Exception) {
                 _error.value = "Нет подключения к интернету!"
             }
@@ -45,7 +53,7 @@ class MainViewModel(
     private fun loadAll() {
         viewModelScope.launch {
             runCatching {
-                translationRepository.getCache()
+                getCacheUseCase.invoke()
             }.fold(
                 onSuccess = { words ->
                     _historyTranslate.update { words }
@@ -58,9 +66,9 @@ class MainViewModel(
     fun toggleToFavorite(wordEntity: WordEntity) {
         viewModelScope.launch {
             val result = if (wordEntity.isFavorite) {
-                translationRepository.removeFromFavorite(wordEntity.wordId)
+                removeFromFavouriteUseCase.invoke(wordEntity.wordId)
             } else {
-                translationRepository.addToFavorite(wordEntity.wordId)
+                addToFavouriteUseCase(wordEntity.wordId)
             }
             _historyTranslate.update { result }
         }
@@ -68,7 +76,7 @@ class MainViewModel(
 
     fun deleteFromCache(wordEntity: WordEntity) {
         viewModelScope.launch {
-            val result = translationRepository.removeFromCache(wordEntity.wordId)
+            val result = removeFromCacheUseCase(wordEntity.wordId)
             _historyTranslate.update { result }
         }
     }
