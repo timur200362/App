@@ -8,26 +8,41 @@ import androidx.room.Transaction
 @Dao
 interface WordDao {
     @Insert
-    suspend fun insert(wordDB: WordDB)
+    suspend fun insert(wordEntity: WordEntity)
 
-    @Query("DELETE FROM WordDB WHERE wordId=:id")
+    @Insert
+    suspend fun insertAll(words: List<WordEntity>)
+
+    @Query("DELETE FROM words WHERE wordId=:id")
     suspend fun delete(id: Int)
 
-    @Query("SELECT * FROM WordDB")
-    suspend fun getAll(): List<WordDB>
+    @Query("SELECT * FROM words")
+    suspend fun getAll(): List<WordEntity>
 
-    @Query("SELECT * FROM WordDB WHERE favorite=1")
-    suspend fun getFavourites(): List<WordDB>
+    @Query("SELECT * FROM words WHERE favorite=1")
+    suspend fun getFavourites(): List<WordEntity>
 
-    @Query("UPDATE WordDB SET favorite=1 WHERE wordId=:id")
+    @Query("UPDATE words SET favorite=1 WHERE wordId=:id")
     suspend fun insertToFavourites(id: Int)
 
-    @Query("UPDATE WordDB SET favorite=0 WHERE wordId=:id")
+    @Query("UPDATE words SET favorite=0 WHERE wordId=:id")
     suspend fun deleteFromFavourites(id: Int)
 
-//    @Transaction
-//    suspend fun insertAndGetAll(wordDB: WordDB):List<WordDB> {
-//        insert(wordDB)
-//        getAll()
-//    }
+    @Transaction
+    suspend fun insertToFavoriteAndGetAll(id: Int): List<WordEntity> {
+        insertToFavourites(id)
+        return getAll()
+    }
+
+    @Transaction
+    suspend fun deleteFromFavoriteAndGetAll(id: Int): List<WordEntity> {
+        deleteFromFavourites(id)
+        return getAll()
+    }
+
+    @Transaction
+    suspend fun deleteAndGetAll(id: Int): List<WordEntity> {
+        delete(id)
+        return getAll()
+    }
 }

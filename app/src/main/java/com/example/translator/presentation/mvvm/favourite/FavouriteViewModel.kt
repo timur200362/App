@@ -1,18 +1,18 @@
 package com.example.translator.presentation.mvvm.favourite
 
 import androidx.lifecycle.ViewModel
-import com.example.translator.data.database.WordDB
-import com.example.translator.domain.usecase.database.GetFavouritesUseCase
+import androidx.lifecycle.viewModelScope
+import com.example.translator.data.database.WordEntity
+import com.example.translator.domain.usecase.database.GetFavoritesUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class FavouriteViewModel(
-    private val getFavouritesUseCase: GetFavouritesUseCase
-): ViewModel() {
-    private val _favourites = MutableStateFlow<List<WordDB>>(emptyList())
-    val favourites: StateFlow<List<WordDB>>
+    private val getFavouritesUseCase: GetFavoritesUseCase,
+) : ViewModel() {
+    private val _favourites = MutableStateFlow<List<WordEntity>>(emptyList())
+    val favourites: StateFlow<List<WordEntity>>
         get() = _favourites
 
     init {
@@ -21,7 +21,7 @@ class FavouriteViewModel(
 
     fun getFavouritesWords() {
         viewModelScope.launch {
-            _favourites.value = getFavouritesUseCase.execute()
+            _favourites.value = getFavouritesUseCase()
         }
     }
 }

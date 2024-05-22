@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [WordDB::class],
+    entities = [WordEntity::class],
     version = 1,
     autoMigrations = [
 

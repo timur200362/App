@@ -1,42 +1,46 @@
 package com.example.translator.domain.repository
 
-import com.example.translator.data.database.WordDB
 import com.example.translator.data.database.WordDatabase
+import com.example.translator.data.database.WordEntity
 import com.example.translator.data.remote.ApiService
 import com.example.translator.data.repository.TranslationRepository
 import javax.inject.Inject
 
 class TranslationRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val wordDatabase: WordDatabase
+    wordDatabase: WordDatabase,
 ) : TranslationRepository {
+
+    private val wordDao = wordDatabase.wordDao()
+
     override suspend fun translateWord(word: String): List<String> {
-        return apiService.loadTranslation(word).map {
+        val result = apiService.loadTranslation(word).map {
             it.meanings.first().translation.text
         }
+
+        wordDao.insert(WordEntity(word = word, isFavorite = false))
+
+        return result
     }
 
-    override suspend fun insert(wordDB: WordDB) {
-        wordDatabase.wordDao().insert(wordDB)
+    override suspend fun addToFavorite(id: Int): List<WordEntity> {
+        return wordDao.insertToFavoriteAndGetAll(id)
     }
 
-    override suspend fun delete(id: Int) {
-        wordDatabase.wordDao().delete(id)
+    override suspend fun removeFromFavorite(id: Int): List<WordEntity> {
+        return wordDao.deleteFromFavoriteAndGetAll(id)
     }
 
-    override suspend fun getFavourites(): List<WordDB> {
-        return wordDatabase.wordDao().getFavourites()
+    override suspend fun removeFromCache(id: Int): List<WordEntity> {
+        return wordDao.deleteAndGetAll(id)
     }
 
-    override suspend fun getAll(): List<WordDB> {
-        return wordDatabase.wordDao().getAll()
+    override suspend fun getCache(): List<WordEntity> {
+        return wordDao.getAll()
     }
 
-    override suspend fun insertToFavourites(id: Int) {
-        return wordDatabase.wordDao().insertToFavourites(id)
+    override suspend fun getFavorites(): List<WordEntity> {
+        return wordDao.getFavourites()
     }
 
-    override suspend fun deleteFromFavourites(id: Int) {
-        return wordDatabase.wordDao().deleteFromFavourites(id)
-    }
 }

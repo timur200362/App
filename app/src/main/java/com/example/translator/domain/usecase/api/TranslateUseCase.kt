@@ -3,10 +3,13 @@ package com.example.translator.domain.usecase.api
 import com.example.translator.data.repository.TranslationRepository
 import javax.inject.Inject
 
-class TranslateUseCase @Inject constructor(
-    private val translationRepository: TranslationRepository
-) {
-    suspend fun execute(word: String): List<String> {
-        return translationRepository.translateWord(word)
-    }
+class TranslateUseCaseImpl @Inject constructor(
+    private val translationRepository: TranslationRepository,
+) : TranslateUseCase {
+    override suspend fun invoke(word: String): List<String> =
+        translationRepository.translateWord(word)
+}
+
+interface TranslateUseCase {
+    suspend operator fun invoke(word: String): List<String>
 }

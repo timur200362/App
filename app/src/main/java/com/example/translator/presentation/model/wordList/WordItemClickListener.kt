@@ -1,6 +1,8 @@
 package com.example.translator.presentation.model.wordList
 
+import com.example.translator.data.database.WordEntity
+
 interface WordItemClickListener {
-    fun onDeleteItemClicked(position: Int)
-    fun onFavoriteIconClicked(position: Int)
+    fun onDeleteItemClicked(word: WordEntity)
+    fun onFavoriteIconClicked(word: WordEntity)
 }
