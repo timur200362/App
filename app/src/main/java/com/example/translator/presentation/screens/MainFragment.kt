@@ -72,7 +72,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             rwWordsList.adapter = WordAdapter(
                 mutableListOf(),
                 object: WordItemClickListener {
-                    override fun onTextWordClicked(position: Int) {
+                    override fun onDeleteItemClicked(position: Int) {
                         viewModel.deleteAndGetAll(position)
                     }
                     override fun onFavoriteIconClicked(position: Int) {
