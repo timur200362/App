@@ -1,6 +1,6 @@
 package com.example.translator.domain.usecase.api.impl
 
-import com.example.translator.data.repository.TranslationRepository
+import com.example.translator.domain.repository.TranslationRepository
 import com.example.translator.domain.usecase.api.interfaces.TranslateUseCase
 import javax.inject.Inject
 

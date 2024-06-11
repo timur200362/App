@@ -1,9 +1,9 @@
-package com.example.translator.domain.repository
+package com.example.translator.data.repository
 
 import com.example.translator.data.database.WordDatabase
 import com.example.translator.data.database.WordEntity
 import com.example.translator.data.remote.ApiService
-import com.example.translator.data.repository.TranslationRepository
+import com.example.translator.domain.repository.TranslationRepository
 import javax.inject.Inject
 
 class TranslationRepositoryImpl @Inject constructor(
