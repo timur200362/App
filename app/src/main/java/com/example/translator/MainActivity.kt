@@ -1,6 +1,7 @@
 package com.example.translator
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -22,16 +23,15 @@ class MainActivity : AppCompatActivity() {
         binding.run {
             bnvMain.setupWithNavController(controller)
         }
-    }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        binding.run {
-            if (bnvMain.selectedItemId != R.id.mainFragment) {
-                bnvMain.selectedItemId = R.id.mainFragment
-            } else {
-                onBackPressedDispatcher.onBackPressed()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.bnvMain.selectedItemId != R.id.mainFragment) {
+                    binding.bnvMain.selectedItemId = R.id.mainFragment
+                } else {
+                    onBackPressedDispatcher.onBackPressed()
+                }
             }
-        }
+        })
     }
 }

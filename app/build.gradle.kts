@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlin.serialization)
     id("org.jetbrains.kotlin.kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -65,6 +66,6 @@ dependencies {
     // region Room
     implementation(libs.room)
     implementation(libs.room.ktx)
-    kapt(libs.room.kapt)
+    ksp(libs.room.kapt)
     // endregion
 }
