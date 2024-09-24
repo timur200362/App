@@ -1,7 +1,7 @@
 package com.example.translator.di.data
 
-import com.example.translator.data.repository.TranslationRepository
-import com.example.translator.domain.repository.TranslationRepositoryImpl
+import com.example.translator.domain.repository.TranslationRepository
+import com.example.translator.data.repository.TranslationRepositoryImpl
 import dagger.Binds
 import dagger.Module
 

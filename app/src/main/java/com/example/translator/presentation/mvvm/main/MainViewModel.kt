@@ -43,7 +43,7 @@ class MainViewModel(
             try {
                 val translatedWord = translateUseCase(word)
                 _resultTranslate.update { translatedWord }
-                _historyTranslate.update { getCacheUseCase.invoke() }
+                _historyTranslate.update { getCacheUseCase() }
             } catch (exception: Exception) {
                 _error.value = "Нет подключения к интернету!"
             }
@@ -53,12 +53,13 @@ class MainViewModel(
     private fun loadAll() {
         viewModelScope.launch {
             runCatching {
-                getCacheUseCase.invoke()
+                getCacheUseCase()
             }.fold(
                 onSuccess = { words ->
                     _historyTranslate.update { words }
                 },
-                onFailure = { _error.value = it.message.orEmpty() }
+                onFailure = { throwable ->
+                    _error.value = throwable.message.orEmpty() }
             )
         }
     }
@@ -66,7 +67,7 @@ class MainViewModel(
     fun toggleToFavorite(wordEntity: WordEntity) {
         viewModelScope.launch {
             val result = if (wordEntity.isFavorite) {
-                removeFromFavouriteUseCase.invoke(wordEntity.wordId)
+                removeFromFavouriteUseCase(wordEntity.wordId)
             } else {
                 addToFavouriteUseCase(wordEntity.wordId)
             }

@@ -1,4 +1,4 @@
-package com.example.translator.data.repository
+package com.example.translator.domain.repository
 
 import com.example.translator.data.database.WordEntity
 
